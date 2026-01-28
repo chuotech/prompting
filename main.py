@@ -1,3 +1,5 @@
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 from music21 import *
 import pretty_midi
 import time
@@ -34,13 +36,19 @@ class MIDI_Stream:
             return
         
     def print_info(self):
+        print("Time Duration in Seconds:")
         print(self.duration)
+        print("Tempo BPM:")
         print(self.tempo)
+        print("Time Signature")
         print(self.midi_stream21[meter.TimeSignature][0])
         k = self.midi_stream21.analyze('key')
+        print("Key Signature")
         print(k.name)
         measure_stream = self.midi_stream21.makeMeasures()
+        print("Music21 Measure Data:")
         measure_stream.show('text')
+        print("Individual Notes:")
         pprint.pp(self.notes)
         return
 
@@ -74,11 +82,31 @@ class MIDI_Stream:
                 curr_chord = []
                 curr_highest_pitch = 0
                 curr_lowest_pitch = 100000
+        print("Chord List:")
         pprint.pp(chord_list)
         return chord_list
-        
+
+# class Handler(FileSystemEventHandler):
+#     def on_modified(self, event):
+#         if event.src_path == ".\\samples\\midi_export.mid":
+#             print("Updated MIDI file...")
+#             midi_path = "samples/midi_export.mid"
+#             midi_stream = MIDI_Stream(midi_path)
+#             midi_stream.print_info()
+#             chords = midi_stream.get_full_chord_list()
+
+# observer = Observer()
+# observer.schedule(Handler(), ".")
+# observer.start()
+
+# try:
+#     while True:
+#         pass
+# except:
+#     observer.stop()
+# observer.join()
 start = time.time()
-midi_path = "samples/sample1.mid"
+midi_path = "samples/midi_export.mid"
 midi_stream = MIDI_Stream(midi_path)
 midi_stream.print_info()
 chords = midi_stream.get_full_chord_list()
