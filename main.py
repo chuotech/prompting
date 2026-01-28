@@ -37,6 +37,8 @@ class MIDI_Stream:
         print(self.duration)
         print(self.tempo)
         print(self.midi_stream21[meter.TimeSignature][0])
+        k = self.midi_stream21.analyze('key')
+        print(k.name)
         pprint.pp(self.notes)
         return
 
@@ -74,7 +76,7 @@ class MIDI_Stream:
         return chord_list
         
 start = time.time()
-midi_path = "samples/sample34.mid"
+midi_path = "samples/midi_export.mid"
 midi_stream = MIDI_Stream(midi_path)
 midi_stream.print_info()
 chords = midi_stream.get_full_chord_list()
