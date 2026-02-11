@@ -11,7 +11,8 @@ class MIDI_Stream:
         self.tempo = tempo
         self.midi_stream = pretty_midi.PrettyMIDI(midi_file)
         self.midi_stream21 = converter.parse(midi_file)
-        self.duration = round(self.midi_stream.get_end_time())
+        # self.duration = round(self.midi_stream.get_end_time(), 1)
+        self.duration = 6
         if (tempo == None):
             self.tempo = self.get_tempo()
         self.notes = self.get_notes()
@@ -74,67 +75,95 @@ class MIDI_Stream:
         return chord_prog
     
     def get_chords_with_length(self):
+        # full = self.get_full_chord_list()
+
+        # if not full:
+        #     return []
+
+        # chords_with_length = []
+        # current_chord = full[0][0]
+        # count = 1
+
+        # for name, _ in full[1:]:
+        #     if name == current_chord:
+        #         count += 1
+        #     else:
+        #         beats = count / 2  # 2 eighths = 1 beat
+        #         chords_with_length.append((current_chord, beats))
+        #         current_chord = name
+        #         count = 1
+
+        # beats = count / 2
+        # chords_with_length.append((current_chord, beats))
+
+        # return chords_with_length
         full = self.get_full_chord_list()
 
         if not full:
             return []
 
-        chords_with_length = []
-        current_chord = full[0][0]
-        count = 1
-
-        for name, _ in full[1:]:
-            if name == current_chord:
-                count += 1
-            else:
-                beats = count / 2  # 2 eighths = 1 beat
-                chords_with_length.append((current_chord, beats))
-                current_chord = name
-                count = 1
-
-        beats = count / 2
-        chords_with_length.append((current_chord, beats))
-
-        return chords_with_length
+        return full
 
     def get_chords_with_rhythm(self):
+        # full = self.get_full_chord_list()
+
+        # if not full:
+        #     return []
+
+        # chords_with_rhythm = []
+        # current_chord = full[0][0]
+        # count = 1  # number of eighth-note intervals
+
+        # for name, _ in full[1:]:
+        #     if name == current_chord:
+        #         count += 1
+        #     else:
+        #         chords_with_rhythm.append((current_chord, count))
+        #         current_chord = name
+        #         count = 1
+
+        # chords_with_rhythm.append((current_chord, count))
+        # return chords_with_rhythm
         full = self.get_full_chord_list()
 
         if not full:
             return []
 
         chords_with_rhythm = []
-        current_chord = full[0][0]
-        count = 1  # number of eighth-note intervals
 
-        for name, _ in full[1:]:
-            if name == current_chord:
-                count += 1
+        for name, beats in full:
+            if beats == 4:
+                rhythm = "whole note"
+            elif beats == 2:
+                rhythm = "half note"
+            elif beats == 1:
+                rhythm = "quarter note"
+            elif beats == 0.5:
+                rhythm = "eighth note"
             else:
-                chords_with_rhythm.append((current_chord, count))
-                current_chord = name
-                count = 1
+                rhythm = f"{beats} beats"
 
-        chords_with_rhythm.append((current_chord, count))
+            chords_with_rhythm.append((name, rhythm))
+
         return chords_with_rhythm
     
     def get_key_signature(self):
         k = self.midi_stream21.analyze('key')
         return k.name
     
-    def format_rhythm(self, interval_count):
-        beats = interval_count / 2  # 2 eighths = 1 beat
+    # def format_rhythm(self, interval_count):
+    #     beats = interval_count / 2  # 2 eighths = 1 beat
         
-        if beats == 4:
-            return "whole note"
-        elif beats == 2:
-            return "half note"
-        elif beats == 1:
-            return "quarter note"
-        elif beats == 0.5:
-            return "eighth note"
-        else:
-            return f"{beats} beats"
+    #     if beats == 4:
+    #         return "whole note"
+    #     elif beats == 2:
+    #         return "half note"
+    #     elif beats == 1:
+    #         return "quarter note"
+    #     elif beats == 0.5:
+    #         return "eighth note"
+    #     else:
+    #         return f"{beats} beats"
     
     def print_prompt_low(self):
         print("Low prompt")
@@ -162,9 +191,10 @@ class MIDI_Stream:
 
     def print_prompt_high(self):
         print("High prompt")
+
         formatted = [
-            f"{name} ({self.format_rhythm(count)})"
-            for name, count in self.get_chords_with_rhythm()
+            f"{name} ({rhythm})"
+            for name, rhythm in self.get_chords_with_rhythm()
         ]
 
         print(
@@ -172,42 +202,90 @@ class MIDI_Stream:
             f"{self.time_signature} time, at {self.tempo} BPM.\n"
             f"Chord progression: {', '.join(formatted)}."
         )
-        print("The song last 3 measures")
-        return
+
+        print("The song lasts 3 measures")
+        # print("High prompt")
+        # formatted = [
+        #     f"{name} ({self.format_rhythm(count)})"
+        #     for name, count in self.get_chords_with_rhythm()
+        # ]
+
+        # print(
+        #     f"Produce a song in {self.key_signature}, "
+        #     f"{self.time_signature} time, at {self.tempo} BPM.\n"
+        #     f"Chord progression: {', '.join(formatted)}."
+        # )
+        # print("The song last 3 measures")
+        # return
     
     def get_full_chord_list(self):
         quarter_length = 60 / self.tempo
-        eigth_length = quarter_length / 2
+
+        notes = sorted(self.notes, key=lambda x: x["onset"])
+
         chord_list = []
-        curr_chord = []
-        # curr_highest = 0
-        # curr_lowest = 100000
-        curr_highest_pitch = 0
-        curr_lowest_pitch = 100000
-        curr_max_interval_length = eigth_length
         i = 0
-        for interval in range(self.beats_total):
-            # self.key_signature.append(pretty_midi.KeySignature())
-            while i < len(self.notes) and (self.notes[i]["onset"] <= curr_max_interval_length):
-                curr_chord.append(self.notes[i]["pitch"])
-                if self.notes[i]["pitch"] >= curr_highest_pitch:
-                    # curr_highest = self.notes[i]["onset"]
-                    curr_highest_pitch = self.notes[i]["pitch"]
-                if self.notes[i]["pitch"] <= curr_lowest_pitch:
-                    # curr_lowest = self.notes[i]["onset"]
-                    curr_lowest_pitch = self.notes[i]["pitch"]
-                i += 1
-            chord_list.append((chord.Chord(curr_chord).pitchedCommonName, str(interval + 1)))
-            curr_max_interval_length += eigth_length
-            # curr_highest = 0
-            # curr_lowest = 100000
-            if i < len(self.notes) and curr_max_interval_length >= self.notes[i]["onset"]:
-                curr_chord = []
-                curr_highest_pitch = 0
-                curr_lowest_pitch = 100000
-        # print("Chord List:")
-        # pprint.pp(chord_list)
+
+        midi_end = self.duration  # ✅ true end of MIDI in seconds
+
+        while i < len(notes):
+
+            current_onset = notes[i]["onset"]
+            current_pitches = [notes[i]["pitch"]]
+
+            j = i + 1
+
+            # collect notes starting at same onset
+            while j < len(notes) and notes[j]["onset"] == current_onset:
+                current_pitches.append(notes[j]["pitch"])
+                j += 1
+
+            # next onset or end of MIDI
+            if j < len(notes):
+                next_onset = notes[j]["onset"]
+            else:
+                next_onset = midi_end   # ✅ FIXED
+
+            duration_seconds = next_onset - current_onset
+            duration_beats = round(duration_seconds / quarter_length, 3)
+
+            chord_name = chord.Chord(current_pitches).pitchedCommonName
+            chord_list.append((chord_name, duration_beats))
+
+            i = j
         return chord_list
+        # quarter_length = 60 / self.tempo
+        # eigth_length = quarter_length / 2
+        # chord_list = []
+        # curr_chord = []
+        # # curr_highest = 0
+        # # curr_lowest = 100000
+        # curr_highest_pitch = 0
+        # curr_lowest_pitch = 100000
+        # curr_max_interval_length = eigth_length
+        # i = 0
+        # for interval in range(self.beats_total):
+        #     # self.key_signature.append(pretty_midi.KeySignature())
+        #     while i < len(self.notes) and (self.notes[i]["onset"] <= curr_max_interval_length):
+        #         curr_chord.append(self.notes[i]["pitch"])
+        #         if self.notes[i]["pitch"] >= curr_highest_pitch:
+        #             # curr_highest = self.notes[i]["onset"]
+        #             curr_highest_pitch = self.notes[i]["pitch"]
+        #         if self.notes[i]["pitch"] <= curr_lowest_pitch:
+        #             # curr_lowest = self.notes[i]["onset"]
+        #             curr_lowest_pitch = self.notes[i]["pitch"]
+        #         i += 1
+        #     chord_list.append((chord.Chord(curr_chord).pitchedCommonName, str(interval + 1)))
+        #     curr_max_interval_length += eigth_length
+        #     # curr_highest = 0
+        #     # curr_lowest = 100000
+        #     if i < len(self.notes) and curr_max_interval_length >= self.notes[i]["onset"]:
+        #         curr_chord = []
+        #         curr_highest_pitch = 0
+        #         curr_lowest_pitch = 100000
+        # # print("Chord List:")
+        # # pprint.pp(chord_list)
+        # return chord_list
 
 # class Handler(FileSystemEventHandler):
 #     def on_modified(self, event):
@@ -229,7 +307,7 @@ class MIDI_Stream:
 #     observer.stop()
 # observer.join()
 start = time.time()
-midi_path = "samples/midi_export.mid"
+midi_path = "samples/rhythm_test2.mid"
 midi_stream = MIDI_Stream(midi_path)
 midi_stream.print_info()
 midi_stream.print_prompt_low()
