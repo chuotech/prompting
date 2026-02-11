@@ -11,8 +11,8 @@ class MIDI_Stream:
         self.tempo = tempo
         self.midi_stream = pretty_midi.PrettyMIDI(midi_file)
         self.midi_stream21 = converter.parse(midi_file)
-        # self.duration = round(self.midi_stream.get_end_time(), 1)
-        self.duration = 6
+        # self.duration = round(self.midi_stream.get_end_time(), 2)
+        self.duration = 7.2
         if (tempo == None):
             self.tempo = self.get_tempo()
         self.notes = self.get_notes()
@@ -307,7 +307,7 @@ class MIDI_Stream:
 #     observer.stop()
 # observer.join()
 start = time.time()
-midi_path = "samples/rhythm_test2.mid"
+midi_path = "samples/midi_export.mid"
 midi_stream = MIDI_Stream(midi_path)
 midi_stream.print_info()
 midi_stream.print_prompt_low()
