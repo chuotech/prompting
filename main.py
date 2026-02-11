@@ -12,9 +12,9 @@ class MIDI_Stream:
         self.midi_stream = pretty_midi.PrettyMIDI(midi_file)
         self.midi_stream21 = converter.parse(midi_file)
         # self.duration = round(self.midi_stream.get_end_time(), 2)
-        self.duration = 7.2
         if (tempo == None):
             self.tempo = self.get_tempo()
+        self.duration = self.get_duration()
         self.notes = self.get_notes()
         self.beats_total = int((self.tempo/60) * self.duration * 2)
         self.key_signature = self.get_key_signature()
@@ -25,9 +25,11 @@ class MIDI_Stream:
         notes = []
         for instrument in self.midi_stream.instruments:
             for note in instrument.notes:
-                notes.append({"pitch": note.pitch, "onset": round(note.start, 5), "offset": round(note.end, 5)})
+                notes.append({"pitch": note.pitch, "onset": round(note.start, 2), "offset": round(note.end, 2)})
         # pprint.pp(notes)
         return notes
+    def get_duration(self):
+        return round((self.tempo / 60) * 3, 1)
     
     def get_tempo(self):
         tempo_changes = self.midi_stream.get_tempo_changes()
@@ -226,7 +228,7 @@ class MIDI_Stream:
         chord_list = []
         i = 0
 
-        midi_end = self.duration  # ✅ true end of MIDI in seconds
+        midi_end = self.duration
 
         while i < len(notes):
 
@@ -235,16 +237,13 @@ class MIDI_Stream:
 
             j = i + 1
 
-            # collect notes starting at same onset
             while j < len(notes) and notes[j]["onset"] == current_onset:
                 current_pitches.append(notes[j]["pitch"])
                 j += 1
-
-            # next onset or end of MIDI
             if j < len(notes):
                 next_onset = notes[j]["onset"]
             else:
-                next_onset = midi_end   # ✅ FIXED
+                next_onset = midi_end
 
             duration_seconds = next_onset - current_onset
             duration_beats = round(duration_seconds / quarter_length, 3)
@@ -307,7 +306,7 @@ class MIDI_Stream:
 #     observer.stop()
 # observer.join()
 start = time.time()
-midi_path = "samples/midi_export.mid"
+midi_path = "samples/scale_test.mid"
 midi_stream = MIDI_Stream(midi_path)
 midi_stream.print_info()
 midi_stream.print_prompt_low()
