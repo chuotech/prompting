@@ -20,6 +20,8 @@ class MIDI_Stream:
         self.key_signature = self.get_key_signature()
         self.time_signature = self.get_time_signature()
         self.chord_list = self.get_full_chord_list()
+        self.chord_prog = self.get_chord_prog()
+        self.chords_rhythm = self.get_chords_with_rhythm()
 
     def get_notes(self):
         notes = []
@@ -57,19 +59,22 @@ class MIDI_Stream:
         measure_stream = self.midi_stream21.makeMeasures()
         print("Music21 Measure Data:")
         measure_stream.show('text')
-        print("Individual Notes:")
+        print("Individual Notes: (MIDI pitch, onset, offset)")
         pprint.pp(self.notes)
-        print("Chord List:")
+        print("Chord List (chord name/note, note length):")
         pprint.pp(self.chord_list)
-        print("Chord Progression: \n" + str(self.get_chord_prog()))
-        print("Chord with Rhythm: \n" + str(self.get_chords_with_rhythm()))
+        print("Chord Progression:")
+        pprint.pp(self.chord_prog)
+        print("Chord with Rhythm: (chord/name note, name of beat or duration of note)")
+        pprint.pp(self.chords_rhythm)
+        self.get_dissonance_intervals()
         return
     
     def get_chord_prog(self):
         seen = set()
         chord_prog = []
 
-        for chord_name, _ in self.chord_list:
+        for chord_name, _, _ in self.chord_list:
             if chord_name not in seen:
                 seen.add(chord_name)
                 chord_prog.append(chord_name)
@@ -133,7 +138,7 @@ class MIDI_Stream:
 
         chords_with_rhythm = []
 
-        for name, beats in full:
+        for name, beats, disonance in full:
             if beats == 4:
                 rhythm = "whole note"
             elif beats == 2:
@@ -142,6 +147,8 @@ class MIDI_Stream:
                 rhythm = "quarter note"
             elif beats == 0.5:
                 rhythm = "eighth note"
+            # if beats:
+            #     rhythm = duration.Duration(beats)
             else:
                 rhythm = f"{beats} beats"
 
@@ -152,20 +159,6 @@ class MIDI_Stream:
     def get_key_signature(self):
         k = self.midi_stream21.analyze('key')
         return k.name
-    
-    # def format_rhythm(self, interval_count):
-    #     beats = interval_count / 2  # 2 eighths = 1 beat
-        
-    #     if beats == 4:
-    #         return "whole note"
-    #     elif beats == 2:
-    #         return "half note"
-    #     elif beats == 1:
-    #         return "quarter note"
-    #     elif beats == 0.5:
-    #         return "eighth note"
-    #     else:
-    #         return f"{beats} beats"
     
     def print_prompt_low(self):
         print("Low prompt")
@@ -219,7 +212,18 @@ class MIDI_Stream:
         # )
         # print("The song last 3 measures")
         # return
-    
+    def get_dissonance_intervals(self):
+        total_dissonance = 0
+        for i in range(len(self.notes) - 1):
+            note1 = note.Note(self.notes[i]["pitch"])
+            note2 = note.Note(self.notes[i+1]["pitch"])
+            if (not interval.Interval(note1, note2).isConsonant()):
+                print(str(note1.name) + ", " + str(note2.name) + " are dissonant")
+                total_dissonance += 1
+        print("Total Dissonance: ")
+        print(str(total_dissonance))
+        return
+
     def get_full_chord_list(self):
         quarter_length = 60 / self.tempo
 
@@ -247,9 +251,9 @@ class MIDI_Stream:
 
             duration_seconds = next_onset - current_onset
             duration_beats = round(duration_seconds / quarter_length, 3)
-
             chord_name = chord.Chord(current_pitches).pitchedCommonName
-            chord_list.append((chord_name, duration_beats))
+            current_chord = chord.Chord(current_pitches)
+            chord_list.append((chord_name, duration_beats, current_chord.isConsonant()))
 
             i = j
         return chord_list
@@ -306,12 +310,12 @@ class MIDI_Stream:
 #     observer.stop()
 # observer.join()
 start = time.time()
-midi_path = "samples/scale_test.mid"
+midi_path = "samples/midi_export3.mid"
 midi_stream = MIDI_Stream(midi_path)
 midi_stream.print_info()
-midi_stream.print_prompt_low()
-midi_stream.print_prompt_mid()
-midi_stream.print_prompt_high()
+# midi_stream.print_prompt_low()
+# midi_stream.print_prompt_mid()
+# midi_stream.print_prompt_high()
 chords = midi_stream.get_full_chord_list()
 end = time.time()
 print(end - start)
