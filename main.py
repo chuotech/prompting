@@ -4,6 +4,7 @@ from music21 import *
 import pretty_midi
 import time
 import pprint
+import threading
 
 class MIDI_Stream:
     def __init__(self, midi_file, tempo = None):
@@ -52,7 +53,7 @@ class MIDI_Stream:
         print("Tempo BPM:")
         print(self.tempo)
         print("Time Signature")
-        print(self.midi_stream21[meter.TimeSignature][0])
+        print(self.time_signature)
         k = self.midi_stream21.analyze('key')
         print("Key Signature")
         print(k.name)
@@ -141,8 +142,12 @@ class MIDI_Stream:
         for name, beats, disonance in full:
             if beats == 4:
                 rhythm = "whole note"
+            elif beats == 3:
+                rhythm = "dotted half note"
             elif beats == 2:
                 rhythm = "half note"
+            elif beats == 1.5:
+                rhythm = "dotted quarter note"
             elif beats == 1:
                 rhythm = "quarter note"
             elif beats == 0.5:
@@ -293,7 +298,7 @@ class MIDI_Stream:
 # class Handler(FileSystemEventHandler):
 #     def on_modified(self, event):
 #         if event.src_path == ".\\samples\\midi_export.mid":
-#             print("Updated MIDI file...")
+#             print("Updated MIDI file...")0
 #             midi_path = "samples/midi_export.mid"
 #             midi_stream = MIDI_Stream(midi_path)
 #             midi_stream.print_info()
@@ -310,7 +315,7 @@ class MIDI_Stream:
 #     observer.stop()
 # observer.join()
 start = time.time()
-midi_path = "samples/midi_export3.mid"
+midi_path = "samples/midi_export.mid"
 midi_stream = MIDI_Stream(midi_path)
 midi_stream.print_info()
 # midi_stream.print_prompt_low()
