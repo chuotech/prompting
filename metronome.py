@@ -56,7 +56,7 @@ class Metronome:
             self.playing = False
             if self.thread:
                 self.thread.join(timeout=0.1)
-            print("Stopped Metronome")
+            print("Stopped Metronome") 
 
     def set_bpm(self): 
         if not self.playing:
@@ -86,19 +86,19 @@ metronome.print_details()
 while(1): 
     if (keyboard.is_pressed('space')):
         metronome.start_metronome()
-        time.sleep(0.3)
-    if (keyboard.is_pressed('shift')):
+        time.sleep(0.1)
+    if (keyboard.is_pressed('shift')): 
         metronome.stop_metronome()
-        time.sleep(0.3)
+        time.sleep(0.1)
     if (keyboard.is_pressed("b")): 
         metronome.set_bpm()
-        time.sleep(0.3) 
+        time.sleep(0.1) 
     if (keyboard.is_pressed("t")):
         metronome.set_time_signature()
-        time.sleep(0.3)
+        time.sleep(0.1)
     if (keyboard.is_pressed('esc')): 
         break
-    time.sleep(0.3)
+    time.sleep(0.1)
 # metronome.print_details()
 # metronome.start_metronome()
 
