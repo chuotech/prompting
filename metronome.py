@@ -81,7 +81,7 @@ class Metronome:
         print(f"BPM:  {self.bpm}")
         print(f"Time Signature:  {self.time_signature}") 
 
-metronome = Metronome(bpm = 100, time_signature = 3)
+metronome = Metronome(bpm = 120, time_signature = 4)
 metronome.print_details()
 while(1): 
     if (keyboard.is_pressed('space')):
