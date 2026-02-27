@@ -1,0 +1,428 @@
+{
+    "midi_file": "samples/repeating_chords.mid",
+    "tempo": 120.0,
+    "duration": 24.0,
+    "time_signature": "4/4",
+    "key_signature": "C major",
+    "scale_pitches": [
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "A",
+        "B",
+        "C"
+    ],
+    "notes": [
+        {
+            "pitch": 60,
+            "onset": 0.0,
+            "offset": 1.89
+        },
+        {
+            "pitch": 64,
+            "onset": 0.0,
+            "offset": 1.89
+        },
+        {
+            "pitch": 67,
+            "onset": 0.0,
+            "offset": 1.89
+        },
+        {
+            "pitch": 65,
+            "onset": 2.0,
+            "offset": 3.8
+        },
+        {
+            "pitch": 62,
+            "onset": 2.0,
+            "offset": 3.82
+        },
+        {
+            "pitch": 69,
+            "onset": 2.0,
+            "offset": 3.86
+        },
+        {
+            "pitch": 64,
+            "onset": 4.0,
+            "offset": 5.43
+        },
+        {
+            "pitch": 60,
+            "onset": 4.0,
+            "offset": 5.44
+        },
+        {
+            "pitch": 67,
+            "onset": 4.0,
+            "offset": 5.47
+        },
+        {
+            "pitch": 71,
+            "onset": 4.0,
+            "offset": 5.51
+        },
+        {
+            "pitch": 60,
+            "onset": 6.0,
+            "offset": 7.89
+        },
+        {
+            "pitch": 64,
+            "onset": 6.0,
+            "offset": 7.89
+        },
+        {
+            "pitch": 67,
+            "onset": 6.0,
+            "offset": 7.89
+        },
+        {
+            "pitch": 65,
+            "onset": 8.0,
+            "offset": 9.8
+        },
+        {
+            "pitch": 62,
+            "onset": 8.0,
+            "offset": 9.82
+        },
+        {
+            "pitch": 69,
+            "onset": 8.0,
+            "offset": 9.86
+        },
+        {
+            "pitch": 64,
+            "onset": 10.0,
+            "offset": 11.43
+        },
+        {
+            "pitch": 60,
+            "onset": 10.0,
+            "offset": 11.44
+        },
+        {
+            "pitch": 67,
+            "onset": 10.0,
+            "offset": 11.47
+        },
+        {
+            "pitch": 71,
+            "onset": 10.0,
+            "offset": 11.51
+        },
+        {
+            "pitch": 60,
+            "onset": 12.0,
+            "offset": 13.89
+        },
+        {
+            "pitch": 64,
+            "onset": 12.0,
+            "offset": 13.89
+        },
+        {
+            "pitch": 67,
+            "onset": 12.0,
+            "offset": 13.89
+        },
+        {
+            "pitch": 65,
+            "onset": 14.0,
+            "offset": 15.8
+        },
+        {
+            "pitch": 62,
+            "onset": 14.0,
+            "offset": 15.82
+        },
+        {
+            "pitch": 69,
+            "onset": 14.0,
+            "offset": 15.86
+        },
+        {
+            "pitch": 64,
+            "onset": 16.0,
+            "offset": 17.43
+        },
+        {
+            "pitch": 60,
+            "onset": 16.0,
+            "offset": 17.44
+        },
+        {
+            "pitch": 67,
+            "onset": 16.0,
+            "offset": 17.47
+        },
+        {
+            "pitch": 71,
+            "onset": 16.0,
+            "offset": 17.51
+        },
+        {
+            "pitch": 60,
+            "onset": 18.0,
+            "offset": 19.89
+        },
+        {
+            "pitch": 64,
+            "onset": 18.0,
+            "offset": 19.89
+        },
+        {
+            "pitch": 67,
+            "onset": 18.0,
+            "offset": 19.89
+        },
+        {
+            "pitch": 66,
+            "onset": 20.0,
+            "offset": 21.8
+        },
+        {
+            "pitch": 62,
+            "onset": 20.0,
+            "offset": 21.82
+        },
+        {
+            "pitch": 69,
+            "onset": 20.0,
+            "offset": 21.86
+        },
+        {
+            "pitch": 64,
+            "onset": 22.0,
+            "offset": 23.43
+        },
+        {
+            "pitch": 60,
+            "onset": 22.0,
+            "offset": 23.44
+        },
+        {
+            "pitch": 67,
+            "onset": 22.0,
+            "offset": 23.47
+        },
+        {
+            "pitch": 71,
+            "onset": 22.0,
+            "offset": 23.51
+        }
+    ],
+    "chord_list": [
+        {
+            "name": "C-major triad",
+            "beats": 4.0,
+            "is_consonant": true,
+            "intervals": [
+                "M3",
+                "P5",
+                "m3"
+            ],
+            "dissonant_intervals": []
+        },
+        {
+            "name": "D-minor triad",
+            "beats": 4.0,
+            "is_consonant": true,
+            "intervals": [
+                "m3",
+                "M3",
+                "P5"
+            ],
+            "dissonant_intervals": []
+        },
+        {
+            "name": "C-major seventh chord",
+            "beats": 4.0,
+            "is_consonant": false,
+            "intervals": [
+                "M3",
+                "m3",
+                "P5",
+                "P5",
+                "M7",
+                "M3"
+            ],
+            "dissonant_intervals": [
+                "M7"
+            ]
+        },
+        {
+            "name": "C-major triad",
+            "beats": 4.0,
+            "is_consonant": true,
+            "intervals": [
+                "M3",
+                "P5",
+                "m3"
+            ],
+            "dissonant_intervals": []
+        },
+        {
+            "name": "D-minor triad",
+            "beats": 4.0,
+            "is_consonant": true,
+            "intervals": [
+                "m3",
+                "M3",
+                "P5"
+            ],
+            "dissonant_intervals": []
+        },
+        {
+            "name": "C-major seventh chord",
+            "beats": 4.0,
+            "is_consonant": false,
+            "intervals": [
+                "M3",
+                "m3",
+                "P5",
+                "P5",
+                "M7",
+                "M3"
+            ],
+            "dissonant_intervals": [
+                "M7"
+            ]
+        },
+        {
+            "name": "C-major triad",
+            "beats": 4.0,
+            "is_consonant": true,
+            "intervals": [
+                "M3",
+                "P5",
+                "m3"
+            ],
+            "dissonant_intervals": []
+        },
+        {
+            "name": "D-minor triad",
+            "beats": 4.0,
+            "is_consonant": true,
+            "intervals": [
+                "m3",
+                "M3",
+                "P5"
+            ],
+            "dissonant_intervals": []
+        },
+        {
+            "name": "C-major seventh chord",
+            "beats": 4.0,
+            "is_consonant": false,
+            "intervals": [
+                "M3",
+                "m3",
+                "P5",
+                "P5",
+                "M7",
+                "M3"
+            ],
+            "dissonant_intervals": [
+                "M7"
+            ]
+        },
+        {
+            "name": "C-major triad",
+            "beats": 4.0,
+            "is_consonant": true,
+            "intervals": [
+                "M3",
+                "P5",
+                "m3"
+            ],
+            "dissonant_intervals": []
+        },
+        {
+            "name": "D-minor triad",
+            "beats": 4.0,
+            "is_consonant": true,
+            "intervals": [
+                "M3",
+                "m3",
+                "P5"
+            ],
+            "dissonant_intervals": []
+        },
+        {
+            "name": "C-major seventh chord",
+            "beats": 4.0,
+            "is_consonant": false,
+            "intervals": [
+                "M3",
+                "m3",
+                "P5",
+                "P5",
+                "M7",
+                "M3"
+            ],
+            "dissonant_intervals": [
+                "M7"
+            ]
+        }
+    ],
+    "chord_progression": [
+        "C-major triad",
+        "D-minor triad",
+        "C-major seventh chord"
+    ],
+    "chords_with_rhythm": [
+        {
+            "name": "C-major triad",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "D-minor triad",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "C-major seventh chord",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "C-major triad",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "D-minor triad",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "C-major seventh chord",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "C-major triad",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "D-minor triad",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "C-major seventh chord",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "C-major triad",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "D-major triad",
+            "rhythm": "whole note"
+        },
+        {
+            "name": "C-major seventh chord",
+            "rhythm": "whole note"
+        }
+    ]
+}
